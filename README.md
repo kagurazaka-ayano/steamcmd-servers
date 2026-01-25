@@ -21,7 +21,7 @@ A declarative NixOS flake module for hosting multiple SteamCMD-based game server
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    steamcmd-servers.url = "github:yourusername/steamcmd-servers";
+    steamcmd-servers.url = "github:ALH477/steamcmd-servers";
   };
 
   outputs = { self, nixpkgs, steamcmd-servers, ... }: {
