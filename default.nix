@@ -537,7 +537,7 @@ in {
               gzip
               steamcmd
             ]
-            + server.extraPackages;
+            ++ server.extraPackages;
 
           preStart = ''
             # Install server if not present
