@@ -322,6 +322,10 @@ with lib; let
         if server.anonymous
         then "anonymous"
         else server.steamUsername
+      } ${
+        if !server.anonymous && server.steamPasswordFile != null
+        then "${builtins.readFile server.steamPasswordFile}"
+        else ""
       }
       ${concatStringsSep "\n" server.extraSteamcmdCommands}
       app_update ${server.appId}${optionalString server.validate " validate"}${optionalString (server.beta != null) " -beta ${server.beta}"}
