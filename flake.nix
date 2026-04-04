@@ -142,9 +142,9 @@
       # Formatting check
       formatting =
         pkgs.runCommand "check-formatting" {
-          nativeBuildInputs = [pkgs.nixpkgs-fmt];
+          nativeBuildInputs = [pkgs.alejandra];
         } ''
-          nixpkgs-fmt --check ${self}/*.nix
+          alejandra --check ${self}/*.nix
           touch $out
         '';
     });
