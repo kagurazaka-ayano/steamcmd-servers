@@ -588,17 +588,22 @@ in {
             ProtectKernelTunables = true;
             ProtectKernelModules = true;
             ProtectControlGroups = true;
-            RestrictNamespaces = true;
+            RestrictNamespaces = false;
             RestrictRealtime = true;
             RestrictSUIDSGID = true;
             LockPersonality = true;
             MemoryDenyWriteExecute = false; # Game servers often require JIT
-            SystemCallArchitectures = "native";
             PrivateNetwork = !server.allowNetworkAccess;
 
             # File access
             ReadWritePaths =
               [
+                cfg.dataDir
+                "${cfg.dataDir}"
+                "${cfg.dataDir}/servers"
+                "${cfg.dataDir}/steamcmd"
+                "${cfg.dataDir}/logs"
+                "${cfg.dataDir}/scripts"
                 server.installDir
                 "${cfg.dataDir}/logs"
               ]
