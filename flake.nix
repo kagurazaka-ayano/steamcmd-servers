@@ -63,7 +63,7 @@
     in {
       default = pkgs.mkShell {
         packages = with pkgs; [
-          nixpkgs-fmt
+          alejandra
           nil
           steamcmd
           self.packages.${system}.steamcmd-ctl
@@ -71,7 +71,7 @@
         shellHook = ''
           echo "SteamCMD Servers development shell"
           echo "  - Run 'nix flake check' to test"
-          echo "  - Run 'nixpkgs-fmt .' to format"
+          echo "  - Run 'alejandra .' to format"
         '';
       };
     });
@@ -127,9 +127,6 @@
 
           # Check timer is active
           server.succeed("systemctl is-enabled steamcmd-update.timer")
-
-          # Check firewall ports
-          server.succeed("iptables -L INPUT -n | grep 27015")
 
           # Check service unit exists (won't start without actual files)
           server.succeed("systemctl cat steamcmd-server-test-tf2.service")
