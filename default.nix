@@ -272,7 +272,7 @@ with lib; let
 
       stopTimeout = mkOption {
         type = types.int;
-        default = 30;
+        default = 3600;
         description = "Seconds to wait for graceful shutdown before SIGKILL.";
       };
 
