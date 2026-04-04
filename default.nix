@@ -49,6 +49,11 @@ with lib; let
         defaultText = literalExpression ''"''${cfg.dataDir}/servers/''${name}"'';
         description = "Installation directory for this server.";
       };
+      extraPackages = mkOption {
+        type = types.listOf types.package;
+        default = [];
+        description = "Additional packages to include in PATH for this server.";
+      };
 
       validate = mkOption {
         type = types.bool;
@@ -523,14 +528,16 @@ in {
               LD_LIBRARY_PATH = finalLdPath;
             };
 
-          path = with pkgs; [
-            coreutils
-            gawk
-            gnugrep
-            gnutar
-            gzip
-            steamcmd
-          ];
+          path = with pkgs;
+            [
+              coreutils
+              gawk
+              gnugrep
+              gnutar
+              gzip
+              steamcmd
+            ]
+            ++ server.extraPackages;
 
           preStart = ''
             # Install server if not present
