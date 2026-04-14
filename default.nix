@@ -65,6 +65,11 @@ with lib; let
         default = [];
         description = "Additional packages to include in PATH for this server.";
       };
+      extraNixLdPackages = mkOption {
+        type = types.listOf types.package;
+        default = [];
+        description = "Additional nix-ld package to use.";
+      };
 
       validate = mkOption {
         type = types.bool;
@@ -506,7 +511,12 @@ in {
       ++ (mapAttrsToList
         (name: server: "d ${server.installDir} 0750 ${cfg.user} ${cfg.group} -")
         enabledServers);
-
+    programs.nix-ld = let
+      libraries = concatLists (mapAttrsToList (name: s: s.extraNixLdPackages) enabledServers);
+    in {
+      enable = lib.lists.length libraries > 0;
+      inherit libraries;
+    };
     # ══════════════════════════════════════════════════════════════════════════
     # Server services
     # ══════════════════════════════════════════════════════════════════════════

@@ -109,6 +109,7 @@
               executable = "srcds_run";
               executableArgs = ["-game tf" "+map cp_badlands"];
               ports.game = 27015;
+              extraNixLdPackages = [pkgs.libxi];
             };
           };
         };
