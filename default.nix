@@ -42,7 +42,18 @@ with lib; let
         description = "Path to file containing beta branch password.";
         example = "/run/secrets/beta-password";
       };
-
+      steamRun = {
+        enable = mkOption {
+          type = types.bool;
+          default = true;
+          description = "Run server executable via steam-run for better library compatibility.";
+        };
+        package = mkOption {
+          type = types.nullOr types.package;
+          default = pkgs.steam-run;
+          description = "Nix package to use with steam-run (defaults to steamcmd if null).";
+        };
+      };
       installDir = mkOption {
         type = types.path;
         default = "${cfg.dataDir}/servers/${name}";
@@ -537,7 +548,12 @@ in {
               gzip
               steamcmd
             ]
-            ++ server.extraPackages;
+            ++ server.extraPackages
+            ++ (
+              if server.steamRun.enable
+              then [server.steamRun.package]
+              else []
+            );
 
           preStart = ''
             # Install server if not present
@@ -550,7 +566,12 @@ in {
             ${server.preStart}
           '';
 
-          script = ''
+          script = let
+            exec =
+              if server.steamRun.enable
+              then "${lib.getExe server.steamRun.package}"
+              else "exec";
+          in ''
             cd "${server.installDir}"
 
             ${optionalString (server.gsltFile != null) ''
@@ -559,7 +580,7 @@ in {
               fi
             ''}
 
-            exec ./${server.executable} ${escapeShellArgs server.executableArgs}
+            ${exec} ./${server.executable} ${escapeShellArgs server.executableArgs}
           '';
 
           postStart = server.postStart;
