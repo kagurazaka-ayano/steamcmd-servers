@@ -45,7 +45,7 @@ with lib; let
       steamRun = {
         enable = mkOption {
           type = types.bool;
-          default = true;
+          default = false;
           description = "Run server executable via steam-run for better library compatibility.";
         };
         package = mkOption {
