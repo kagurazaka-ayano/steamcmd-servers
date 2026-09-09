@@ -87,11 +87,7 @@
       module-eval = pkgs.testers.nixosTest {
         name = "steamcmd-module-evaluation";
 
-        nodes.server = {
-          config,
-          pkgs,
-          ...
-        }: {
+        nodes.server = {pkgs, ...}: {
           imports = [self.nixosModules.steamcmd-servers];
           services.steamcmd-servers = {
             enable = true;

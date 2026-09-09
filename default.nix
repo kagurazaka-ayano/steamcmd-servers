@@ -539,14 +539,14 @@ in {
               else baseLdPath;
             userLdPath = server.environment.LD_LIBRARY_PATH or "";
             nixld_library_path = (
-              if programs.nix-ld.enable
+              if config.programs.nix-ld.enable
               then "$NIX_LD_LIBRARY_PATH"
               else ""
             );
             finalLdPath =
               if userLdPath != ""
               then "${userLdPath}:${ldPath}:${nixld_library_path}"
-              else ldPath;
+              else "${ldPath}:${nixld_library_path}";
           in
             (removeAttrs server.environment ["LD_LIBRARY_PATH"])
             // {
