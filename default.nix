@@ -535,7 +535,7 @@ in {
             userLdPath = server.environment.LD_LIBRARY_PATH or "";
             nixld_library_path = (
               if config.programs.nix-ld.enable
-              then "$NIX_LD_LIBRARY_PATH"
+              then (builtins.getEnv "NIX_LD_LIBRARY_PATH")
               else ""
             );
             finalLdPath =
