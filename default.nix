@@ -8,11 +8,7 @@ with lib; let
   cfg = config.services.steamcmd-servers;
 
   # Server instance submodule
-  serverOpts = {
-    name,
-    config,
-    ...
-  }: {
+  serverOpts = {name, ...}: {
     options = {
       enable = mkEnableOption "this game server instance";
 
@@ -42,6 +38,7 @@ with lib; let
         description = "Path to file containing beta branch password.";
         example = "/run/secrets/beta-password";
       };
+
       steamRun = {
         enable = mkOption {
           type = types.bool;
@@ -70,13 +67,11 @@ with lib; let
         default = [];
         description = "Additional nix-ld package to use.";
       };
-
       validate = mkOption {
         type = types.bool;
         default = true;
         description = "Validate files on update (recommended, but slower).";
       };
-
       # Authentication
       anonymous = mkOption {
         type = types.bool;
@@ -171,7 +166,7 @@ with lib; let
         type = types.listOf types.str;
         default = [];
         description = "Additional paths to prepend to LD_LIBRARY_PATH.";
-        example = ["./bin" "./linux64"];
+        example = ["bin" "linux64"];
       };
 
       # Networking
