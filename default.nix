@@ -575,10 +575,12 @@ in {
             # Install server if not present
             if [ ! -f "${server.installDir}/.installed" ]; then
               echo "Installing ${server.appIdName} (App ID: ${server.appId})..."
+              export INSTALL_DIR="${server.installDir}"
               ${pkgs.steamcmd}/bin/steamcmd +runscript ${mkSteamcmdScript name server}
               ${server.extraInstallSteps}
               touch "${server.installDir}/.installed"
               echo "Installation complete."
+              unset INSTALL_DIR
             fi
             ${server.preStart}
           '';
