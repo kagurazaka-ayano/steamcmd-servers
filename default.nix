@@ -131,6 +131,12 @@ with lib; let
         example = ["-game tf" "+maxplayers 24" "+map cp_badlands"];
       };
 
+      extraInstallSteps = mkOption {
+        type = types.str;
+        default = "";
+        description = "Shell commands to run after installation (e.g., for mods).";
+      };
+
       preStart = mkOption {
         type = types.lines;
         default = "";
@@ -570,6 +576,7 @@ in {
             if [ ! -f "${server.installDir}/.installed" ]; then
               echo "Installing ${server.appIdName} (App ID: ${server.appId})..."
               ${pkgs.steamcmd}/bin/steamcmd +runscript ${mkSteamcmdScript name server}
+              ${server.extraInstallSteps}
               touch "${server.installDir}/.installed"
               echo "Installation complete."
             fi
